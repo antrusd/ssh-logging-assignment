@@ -1,0 +1,15 @@
+#!/bin/bash
+
+sshd_log_file=${1}
+
+if [ -r ${sshd_log_file} ]; then
+    sshd_log=$(egrep " sshd\[[0-9]+\]: (Accepted|Failed|Illegal|Invalid) " ${sshd_log_file})
+
+    IFS=$'\n' read -r -d '' -a hosts < <(awk '{print $4}' <<<${sshd_log} | sort -u && printf '\0')
+
+    for host in "${hosts[@]}"; do
+        IFS=$'\n' read -r -d '' -a attempts < <(egrep " ${host} sshd\[[0-9]+\]: " <<<${sshd_log} | tee >(grep -c ": Invalid") >(grep -c ": Illegal") >(grep -c ": Failed") >(grep -c ": Accepted") >/dev/null | tee && printf '\0')
+        total=$((attempts[0] + attempts[1] + attempts[2] + attempts[3]))
+        echo "Host ${host} had ${total} attempt, where ${attempts[0]} login success, ${attempts[1]} failed login, ${attempts[2]} illegal user and ${attempts[3]} invalid login"
+    done
+fi

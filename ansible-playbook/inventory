@@ -1,0 +1,11 @@
+[server]
+aserver00   ansible_host=198.19.42.100
+
+
+[client]
+aclient01   ansible_host=198.19.42.101
+aclient02   ansible_host=198.19.42.102
+aclient03   ansible_host=198.19.42.103
+aclient04   ansible_host=198.19.42.104
+aclient05   ansible_host=198.19.42.105
+aclient06   ansible_host=198.19.42.106
