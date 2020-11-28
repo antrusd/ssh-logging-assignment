@@ -44,7 +44,7 @@ EOF
 systemctl restart rsyslog
 ```
 
-### On Server host, create following script on /usr/bin/slogreport to show simple report
+### On Server host, create following script on /usr/sbin/slogreport to show simple report
 
 ```bash
 #!/bin/bash
@@ -68,7 +68,7 @@ fi
 ### Dont forget to make the script executable
 
 ```bash
-chmod +x /usr/bin/slogreport
+chmod +x /usr/sbin/slogreport
 ```
 
 ### Run with /var/log/auth.log as an argument
