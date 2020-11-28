@@ -1,0 +1,54 @@
+---
+- name: SSH Logging as a Metric - an Assignment
+  hosts: all
+  become: yes
+
+  handlers:
+    - name: restart rsyslog
+      service:
+        name: rsyslog
+        state: restarted
+      listen: "restart rsyslog"
+
+  tasks:
+    - name: make sure we have rsyslog installed
+      apt:
+        name: rsyslog
+
+    - name: allow rsyslog Server to accept remote logging - module
+      lineinfile:
+        path: /etc/rsyslog.conf
+        insertafter: '^#module.*imudp'
+        line: 'module(load="imudp")'
+      notify:
+       - restart rsyslog
+      when: inventory_hostname in groups['server']
+
+    - name: allow rsyslog Server to accept remote logging - port
+      lineinfile:
+        path: /etc/rsyslog.conf
+        insertafter: '^#input.*imudp'
+        line: 'input(type="imudp" port="514")'
+      notify:
+       - restart rsyslog
+      when: inventory_hostname in groups['server']
+
+    - name: copy slogreport executable
+      template:
+        src: slogreport.j2
+        dest: /usr/sbin/slogreport
+        owner: root
+        group: root
+        mode: '0755'
+      when: inventory_hostname in groups['server']
+
+    - name: copy sshd rsyslog template
+      template:
+        src: rsyslog-sshd.j2
+        dest: /etc/rsyslog.d/sshd.conf
+        owner: root
+        group: root
+        mode: '0644'
+      notify:
+       - restart rsyslog
+      when: inventory_hostname in groups['client']
