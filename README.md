@@ -46,7 +46,7 @@ EOF
 systemctl restart rsyslog
 ```
 
-### On Server host, create following script on /usr/sbin/slogreport to show simple report
+### On Server host, create following script on `/usr/sbin/slogreport` to show simple report
 
 ```bash
 #!/bin/bash
@@ -73,7 +73,7 @@ fi
 chmod +x /usr/sbin/slogreport
 ```
 
-### Run with /var/log/auth.log as an argument
+### Run with `/var/log/auth.log` as an argument
 
 ```bash
 slogreport /var/log/auth.log
@@ -108,7 +108,7 @@ client_hostnameX  ansible_host=client_ip_address
 
 ```
 
-## On deployer machine, run the ansible playbook
+## On deployer machine, run the `ansible-playbook` command
 
 ```bash
 cd ansible-playbook && ansible-playbook -u username -Kkb ssh-logging.yaml
