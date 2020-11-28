@@ -94,9 +94,9 @@ We can automate all above processes with the help of Ansible tools. But of cours
 
 On the Server and Client, the requirements for ansible to be working are openssh-server ( for remote connection ), python-minimal and python-setuptools. All of those packages are already installed by default on most distro, so we can just move forward.
 
-On the workstation deployer, the machine where we will execute the ansible, make sure the ansible are available. You can use `pip install -r requirements.txt` if you already have python-pip installed.
+On the workstation deployer, the machine where we will execute the ansible, make sure the ansible are available. You can run `pip install -r requirements.txt` inside `ansible-playbook` directory if you already have python-pip installed.
 
-Before we run the ansible, make sure we write target machine on the inventory file, with following format:
+Before we run the ansible, make sure we write target machine on the inventory file at `ansible-playbook/inventory`, with following format:
 
 ```ini
 [server]
@@ -111,7 +111,7 @@ client_hostnameX  ansible_host=client_ip_address
 ## On deployer machine, run the ansible playbook
 
 ```bash
-ansible-playbook -u username -Kkb ssh-logging.yaml
+cd ansible-playbook && ansible-playbook -u username -Kkb ssh-logging.yaml
 ```
 
 ### Sample Output
